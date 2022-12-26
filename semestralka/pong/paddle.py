@@ -1,32 +1,42 @@
-import screen
-import pygame
+"""numpy clip for clipping paddle position"""
 from numpy import clip
+import pygame
 
 class Paddle:
-    def __init__(self, x, y, width, height):
-        self.paddle_x = x
-        self.paddle_y = y
-        self.width = width
-        self.height = height
+    """paddle class"""
 
-    def draw(self):
-        pygame.draw.rect(screen.screen, (255, 255, 255), (self.paddle_x, self.paddle_y, self.width, self.height))
+    def __init__(self, x, y, win):
+        """creates a paddle object"""
+        self.pos_x = x
+        self.pos_y = y
+        self.width = self.get_width(win)
+        self.height = self.get_height(win)
 
-    def adjust_paddle(self):
-        clip(0, screen.HEIGHT - self.height, self.paddle_y)
-    
-    def move(self, velocity, up):    
+
+    def get_width(self, win):
+        """calculates width of the paddle based on window size"""
+        return win.get_width()/100
+
+
+    def get_height(self, win):
+        """calculates height of the paddle based on window size"""
+        return win.get_height()/8
+
+
+    def draw(self, win):
+        """draws the paddle"""
+        pygame.draw.rect(win, (255, 255, 255), self.pos_x, self.pos_y, self.width, self.height)
+
+
+    def adjust_paddle(self, win):
+        """stops the paddle from going out of the screen"""
+        clip(0, win.get_height() - self.height, self.pos_y)
+
+
+    def move(self, velocity, up, win):
+        """moves the paddle up and down"""
         if up:
-            self.paddle_y -= velocity
+            self.pos_y -= velocity
         else:
-            self.paddle_y += velocity
-        self.adjust_paddle()
-
-    
-
-
-def handle_paddle(keys, paddle, up):
-    if keys[pygame.K_w]:
-        paddle.move(5, up=True)
-    if keys[pygame.K_s]:
-        paddle.move(5, up=False)
+            self.pos_y += velocity
+        self.adjust_paddle(win)
