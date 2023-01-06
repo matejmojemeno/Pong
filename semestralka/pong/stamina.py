@@ -4,14 +4,17 @@ class Stamina:
     DECREASE = 5
     INCREASE = 1
 
-    def __init__(self, max_stamina):
+    def __init__(self, max_stamina, left):
         self.max_stamina = max_stamina
         self.stamina = max_stamina
+        self.left = left
 
 
     def decrease(self):
         if self.stamina > self.DECREASE:
             self.stamina -= self.DECREASE
+            return True
+        return False
 
 
     def increase(self):
@@ -38,21 +41,6 @@ class Stamina:
 
 
     def draw(self, win):
-        pygame.draw.rect(win, (255, 255, 255), (0, 0, 400, 50))
-        pygame.draw.rect(win, self.color(), (10, 10, 380 * self.stamina / self.max_stamina, 30))
-
-
-pygame.init()
-
-win = pygame.display.set_mode((400, 400))
-stamina = Stamina(1000)
-
-clock = pygame.time.Clock()
-
-while True:
-    clock.tick(60)
-
-    stamina.draw(win)
-    stamina.decrease()
-
-    pygame.display.update()
+        pygame.draw.rect(win, (255, 255, 255), (500 + 180*(not self.left), 690, 100, 20))
+        pygame.draw.rect(win, (0, 0, 0), (502 + 180*(not self.left), 692, 96, 16))
+        pygame.draw.rect(win, self.color(), (502 + 180*(not self.left), 692, 96 * self.stamina / self.max_stamina, 16))
