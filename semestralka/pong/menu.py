@@ -90,28 +90,3 @@ class Menu:
             pygame.display.update()
         
         return self.pressed_item()
-
-
-def difficulty_menu(win):
-    menu_items = ['easy', 'medium', 'hard']
-
-    menu = Menu(menu_items, win)
-
-    action = menu.display_menu(win)
-
-    return
-
-
-def main_menu(win):
-    menu_items = ['play', 'shop', 'exit']
-
-    menu = Menu(menu_items, win)
-
-    action = menu.display_menu(win)
-
-    if action == 0:
-        difficulty_menu(win)
-    elif action == 1:
-        pass
-    else:
-        return
