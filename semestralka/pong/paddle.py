@@ -1,12 +1,13 @@
 """numpy clip for restraining the paddle from moving out of screen"""
 from numpy import clip
+from stamina import Stamina
 import pygame
 
 class Paddle:
     """a paddle object"""
     BASE_HEIGHT = 80
     BASE_WIDTH = 20
-    VELOCITY = 10
+    VELOCITY = 7
 
     def __init__(self, left, size, speed, win):
         """creates a paddle object"""
@@ -17,7 +18,6 @@ class Paddle:
         self.set_x(left, win)
         self.set_y(win)
 
-        #TODO dat tomu nejaku normalnu rychlost
         self.velocity = self.VELOCITY + speed
         self.sprinting_velocity = 0
 
@@ -55,6 +55,6 @@ class Paddle:
     def sprint(self, is_sprinting):
         """make the paddle 50% faster"""
         if is_sprinting:
-            self.sprinting_velocity = self.velocity*1.5
+            self.sprinting_velocity = self.velocity * 1.5
         else:
             self.sprinting_velocity = 0
