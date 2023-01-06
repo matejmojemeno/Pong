@@ -10,7 +10,7 @@ class Ball:
 
     def __init__(self, win):
         """creates a ball object"""
-        self.reset(1, win)
+        self.reset(win, going_left=True)
         
 
     def move(self):
@@ -37,20 +37,25 @@ class Ball:
         return np.sqrt(self.x_velocity**2 + self.y_velocity**2)
     
 
-    def starting_velocity(self, direction):
-        angle = np.random.uniform(0, 2 * np.pi / 5)
-        return np.sign(direction) * self.BASE_VELOCITY * np.cos(angle), np.random.choice([-1, 1]) * self.BASE_VELOCITY * np.sin(angle)
+    def starting_velocity(self, going_left):
+        angle = np.random.uniform(0, 1/2)
+        if going_left:
+            return - self.BASE_VELOCITY * np.cos(angle), np.random.choice([-1, 1]) * self.BASE_VELOCITY * np.sin(angle)
+        return self.BASE_VELOCITY * np.cos(angle), np.random.choice([-1, 1]) * self.BASE_VELOCITY * np.sin(angle)
 
 
-    def reset(self, direction, win):
+    def reset(self, win, going_left):
         self.pos_x = win.get_width()/2
         self.pos_y = win.get_height()/2
 
-        self.x_velocity, self.y_velocity = self.starting_velocity(direction)
+        self.x_velocity, self.y_velocity = self.starting_velocity(going_left)
 
 
     def won(self, win):
         if self.pos_x + self.RADIUS < 0:
-            self.reset(-1, win)
+            self.reset(win, going_left=True)
+            return 1
         if self.pos_x - self.RADIUS > win.get_width():
-            self.reset(1, win)
+            self.reset(win, going_left=False)
+            return -1
+        return 0
