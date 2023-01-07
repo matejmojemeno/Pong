@@ -1,51 +1,59 @@
-from menu import Menu
-from game import Game, Two_playess_game
+from .menu import Menu
+from .game import Game, Two_playess_game
+from .shop import Shop
+from .readplayer import add_money
 import pygame
 
-
-def difficulty_menu(win):
-    menu_items = ['easy', 'medium', 'hard']
-
-    menu = Menu(menu_items, win)
-
-    action = menu.display_menu(win)
-
-    game = Game(win, difficulty=action)
-    game.play()
+class Application:
+    def __init__(self, win):
+        self.win = win
 
 
-def players_menu(win):
-    menu_items = ['1player', '2player']
-
-    menu = Menu(menu_items, win)
-
-    action = menu.display_menu(win)
-
-    if action == 0:
-        difficulty_menu(win)
-    else:
-        game = Two_playess_game(win)
-        game.play()
+    def run(self):
+        self.main_menu()
 
 
-def main_menu(win):
-    menu_items = ['play', 'shop', 'exit']
+    def difficulty_menu(self):
+        menu_items = ['easy', 'medium', 'hard', 'back']
 
-    menu = Menu(menu_items, win)
+        menu = Menu(menu_items, self.win)
 
-    action = menu.display_menu(win)
+        action = menu.display_menu(self.win)
 
-    if action == 0:
-        players_menu(win)
-    elif action == 1:
-        pass
-    else:
-        return
+        if action == 3:
+            return
+
+        game = Game(self.win, difficulty=action)
+        if game.play():
+            add_money(5 + action*5)
 
 
-pygame.init()
+    def players_menu(self):
+        menu_items = ['1player', '2player', 'back']
 
-win = pygame.display.set_mode((1280, 720))
+        menu = Menu(menu_items, self.win)
 
-main_menu(win)
+        action = menu.display_menu(self.win)
 
+        if action == 0:
+            self.difficulty_menu()
+        else:
+            game = Two_playess_game(self.win)
+            game.play()
+
+
+    def main_menu(self):
+        menu_items = ['play', 'shop', 'exit']
+
+        menu = Menu(menu_items, self.win)
+
+        action = menu.display_menu(self.win)
+
+        while action != 2:
+            if action == 0:
+                self.players_menu()
+            else:
+                shop = Shop()
+                shop.display(self.win)
+
+            action = menu.display_menu(self.win)
