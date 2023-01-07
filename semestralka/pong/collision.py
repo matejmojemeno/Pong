@@ -1,6 +1,7 @@
 import numpy as np
 
 
+
 #to assure the game is never too slow
 MAX_ANGLE = np.pi/5
 #the ball gets faster each bounce
@@ -10,19 +11,19 @@ BOUNCE_INCREASE = 1.1
 def front_paddle_intersect(ball, line_x, line_y, line_length):
     if abs(ball.pos_x - line_x) > ball.RADIUS:
         return False
-    
+
     intersect1 = ball.pos_y + np.sqrt(ball.RADIUS**2 - (ball.pos_x - line_x)**2)
     intersect2 = ball.pos_y - np.sqrt(ball.RADIUS**2 - (ball.pos_x - line_x)**2)
 
     if line_y <= intersect1 <= line_y + line_length or line_y <= intersect2 <= line_y + line_length:
         return True
     return False
-    
+
 
 def top_paddle_intersect(ball, line_x, line_y, line_length):
     if abs(ball.pos_y - line_y) > ball.RADIUS:
         return False
-    
+
     intersect1 = ball.pos_x + np.sqrt(ball.RADIUS**2 - (ball.pos_y - line_y)**2)
     intersect2 = ball.pos_x - np.sqrt(ball.RADIUS**2 - (ball.pos_y - line_y)**2)
 
@@ -58,8 +59,8 @@ def corner_bounce(ball, paddle):
 
 def front_bounce(ball, paddle):
     direction = np.sign(ball.x_velocity)
-    ball.x_velocity, ball.y_velocity = new_direction(ball, paddle)
 
+    ball.x_velocity, ball.y_velocity = new_direction(ball, paddle)
     ball.x_velocity *= -direction
 
 
@@ -86,11 +87,11 @@ def ball_paddle_collision(ball, paddle):
 
     top_intersect = top_paddle_intersect(ball, paddle.pos_x, paddle.pos_y + paddle.height, paddle.width)\
                     or top_paddle_intersect(ball, paddle.pos_x, paddle.pos_y, paddle.width)
-    
+
     bounce(ball, paddle, front_intersect, top_intersect)
 
     return front_intersect or top_intersect
-    
+
 
 def top_bottom_collision(ball, win):
     if ball.pos_y + ball.RADIUS >= win.get_height() and ball.y_velocity > 0:
