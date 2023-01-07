@@ -1,3 +1,4 @@
+import readplayer
 import pygame
 import sys
 
@@ -5,6 +6,8 @@ class Shop:
     def __init__(self, win):
         self.title = self.title(win)
         self.item_images, self.item_rects = self.items()
+        self.stats = readplayer.read_stats()
+        self.coins = readplayer.read_coins()
 
 
     def scale_image(self, image, height):
@@ -28,7 +31,7 @@ class Shop:
         return (images, rects)
 
 
-    def draw(self, win):
+    def draw_stats_names(self, win):
         win.blit(self.title[0], self.title[1])
         for image, rect in zip(self.item_images, self.item_rects):
             win.blit(image, rect)
@@ -49,10 +52,12 @@ class Shop:
 
         rect = pygame.Rect(520, 150*index + 70, 38, 38)
             
+        win.blit(plus, rect)            
         if rect.collidepoint(mouse_x, mouse_y):
             win.blit(gray_plus, rect)
-        else:
-            win.blit(plus, rect)
+            return True
+        
+        return False
      
 
     def draw_coin(self, x, y, win):
@@ -72,7 +77,7 @@ class Shop:
 
 
 
-    def display_coins(self, amount, x, y, win):
+    def draw_coins(self, amount, x, y, win):
         amount = str(amount)[::-1]
 
         x -= self.draw_coin(x, y, win)
@@ -81,27 +86,68 @@ class Shop:
             x -= self.draw_number(number, x, y, win)
 
 
-pygame.init()
+    def total_coins(self, win):
+        self.draw_coins(self.coins, win.get_width() - 30, 30, win)
 
-win = pygame.display.set_mode((1280, 720))
-shop = Shop(win)
 
-while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
+    def draw_back(self, win):
+        back = self.scale_image(pygame.image.load('resources/shop/back.png'), 100)
+        gray_back = self.scale_image(pygame.image.load('resources/shop/gray_back.png'), 100)
+
+        mouse_x, mouse_y = pygame.mouse.get_pos()
+
+        rect = pygame.Rect(win.get_width() - back.get_width() - 30, win.get_height() - 130, back.get_width(), 100)
+
+        win.blit(back, rect)
+        if rect.collidepoint(mouse_x, mouse_y):
+            win.blit(gray_back, rect)
+            return True
         
+        return False
 
-    shop.draw(win)
-    shop.draw_bar(1, 20, win)
-    shop.draw_bar(2, 15, win)
-    shop.draw_bar(3, 0, win)
 
-    # shop.draw_plus(win)
+    def draw(self, win):
+        self.draw_stats_names(win)
+        self.total_coins(win)
+        self.draw_back(win)
+        
+        for index, stat in enumerate(self.stats, start=1):
+            self.draw_bar(index, stat, win)
+            if stat < 20:
+                self.draw_plus(index, win)
+                self.draw_coins(stat + 1, 450, 150*index, win)
 
-    shop.display_coins(1000, 1250, 30, win)
-    
-    pygame.display.update()
-    pygame.display.flip()
-    
+
+    def buy_stat(self, index):
+        if self.coins > self.stats[index] + 1:
+            self.stats[index] += 1
+            self.coins -= self.stats[index]
+
+
+    def checked_pressed(self, win):
+        if self.draw_back(win):
+            return True
+        
+        for i, stat in enumerate(self.stats):
+            if stat >= 20:
+                continue
+            if self.draw_plus(i + 1, win):
+                self.buy_stat(i)
+
+    def display(self, win):
+        back = False
+        while not back:
+            win.fill((0, 0, 0))
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    back = True
+                    sys.exit()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    back = self.checked_pressed(win)
+            
+            self.draw(win)
+
+            pygame.display.update()
+        
+        readplayer.save(self.stats, self.coins)
