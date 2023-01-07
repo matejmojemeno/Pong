@@ -19,3 +19,10 @@ def save(stats, coins):
         for stat in stats:
             file.write(str(stat) + '\n')
         file.write(str(coins) + '\n')
+
+
+def add_money(amount):
+    stats = read_stats()
+    coins = read_coins() + amount
+
+    save(stats, coins)
