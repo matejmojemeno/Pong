@@ -38,7 +38,7 @@ class Game:
 
     def check_closed_window(self):
         for event in pygame.event.get():
-            if event == pygame.QUIT:
+            if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
 
@@ -102,3 +102,4 @@ class Two_playess_game(Game):
         self.right_player = Player(self.win, left=False, is_default=False)
 
         self.ball = Ball(self.win)
+        self.left_plaer_turn = True
