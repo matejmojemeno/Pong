@@ -88,7 +88,7 @@ class Menu:
             if item[0].collidepoint(mouse_x, mouse_y):
                 return True, i
 
-        return False
+        return False, 0
 
     def display_menu(self, win):
         """main menu loop"""
