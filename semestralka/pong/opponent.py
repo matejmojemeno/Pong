@@ -29,10 +29,10 @@ class Opponent:
         else:
             if self.difficulty < 2:
                 # for easy and medium
-                self.follow_by_edges(self.ball, win)
+                self.follow_by_edges(win)
             else:
                 # got better results in testing so we use this for hard
-                self.follow_by_center(self.ball, win)
+                self.follow_by_center(win)
 
     def follow_by_edges(self, win):
         """move to the ball when it goes outside paddle y"""
