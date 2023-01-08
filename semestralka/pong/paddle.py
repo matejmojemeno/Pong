@@ -1,24 +1,23 @@
 """numpy clip for restraining the paddle from moving out of screen"""
 from numpy import clip
-from stamina import Stamina
 import pygame
 
 class Paddle:
     """a paddle object"""
-    BASE_HEIGHT = 80
+    BASE_HEIGHT = 100
     BASE_WIDTH = 20
     VELOCITY = 7
 
     def __init__(self, left, size, speed, win):
         """creates a paddle object"""
         
-        self.width = self.BASE_WIDTH + size
-        self.height = self.BASE_HEIGHT + size*5
+        self.width = self.BASE_WIDTH + size/2
+        self.height = self.BASE_HEIGHT + size*5/2
 
         self.set_x(left, win)
         self.set_y(win)
 
-        self.velocity = self.VELOCITY + speed
+        self.velocity = self.VELOCITY + speed/5
         self.sprinting_velocity = 0
 
 
@@ -33,9 +32,12 @@ class Paddle:
         self.pos_y = win.get_height()/2 - self.height/2
 
 
-    def draw(self, win):
+    def draw(self, skin, win):
         """draws the paddle"""
-        pygame.draw.rect(win, (255, 255, 255), (self.pos_x, self.pos_y, self.width, self.height))
+        skin = pygame.transform.scale(pygame.image.load('resources/skins/' + skin), (self.width, self.height))
+        rect = pygame.Rect(self.pos_x, self.pos_y, self.width, self.height)
+
+        win.blit(skin, rect)
 
 
     def adjust_paddle(self, win):

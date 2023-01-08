@@ -1,10 +1,11 @@
-from paddle import Paddle
-from ball import Ball
+from .paddle import Paddle
+
 
 class Opponent:
     def __init__(self, win, difficulty):
-        self.paddle = Paddle(False, difficulty * 5, difficulty, win)
+        self.paddle = Paddle(False, difficulty * 5, difficulty * 5, win)
         self.difficulty = difficulty
+        self.score = 0
 
 
     def move(self, win, ball):
@@ -39,4 +40,4 @@ class Opponent:
 
 
     def draw(self, win):
-        self.paddle.draw(win)
+        self.paddle.draw('default.png', win)

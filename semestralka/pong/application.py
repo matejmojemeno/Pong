@@ -23,6 +23,7 @@ class Application:
         if action == 3:
             return
 
+        self.win.fill((0, 0, 0))
         game = Game(self.win, difficulty=action)
         if game.play():
             add_money(5 + action*5)
@@ -38,6 +39,7 @@ class Application:
         if action == 0:
             self.difficulty_menu()
         else:
+            self.win.fill((0, 0, 0))
             game = Two_playess_game(self.win)
             game.play()
 

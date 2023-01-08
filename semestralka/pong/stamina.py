@@ -1,12 +1,15 @@
 import pygame
 
 class Stamina:
+    BASE_STAMINA = 500
+    LEVEL_INCREASE = 25
     DECREASE = 5
     INCREASE = 1
 
-    def __init__(self, max_stamina, left):
-        self.max_stamina = max_stamina
-        self.stamina = max_stamina
+    def __init__(self, level, left):
+        self.level = level
+        self.max_stamina = self.BASE_STAMINA + level*self.LEVEL_INCREASE
+        self.stamina = self.max_stamina
         self.left = left
 
 
@@ -19,7 +22,7 @@ class Stamina:
 
     def increase(self):
         if self.stamina < self.max_stamina:
-            self.stamina += self.INCREASE
+            self.stamina += self.INCREASE + self.level/10
 
 
     def green(self, ratio):

@@ -15,11 +15,23 @@ def read_coins():
     return int(lines[-1])
 
 
-def save(stats, coins):
+def save_stats(stats, coins):
     with open(PATH + STATS_FILE, 'w') as file:
         for stat in stats:
             file.write(str(stat) + '\n')
         file.write(str(coins) + '\n')
+
+
+def save_skins(skins, curr_skin):
+    with open(PATH + SKINS_FILE, 'w') as file:
+        file.write(str(curr_skin) + '\n')
+        for skin in skins:
+            file.write(skin[0] + ' ' + str(skin[1]) + '\n')
+
+
+def save(stats, coins, skins, curr_skin):
+    save_stats(stats, coins)
+    save_skins(skins, curr_skin)
 
 
 def add_money(amount):
@@ -37,7 +49,6 @@ def read_skins():
 
         for line in file:
             # Split the line into two parts: the string and the bool
-            
             string, boolean = line.strip().split()
             
             # Convert the boolean string to a bool
