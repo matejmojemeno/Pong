@@ -14,3 +14,10 @@ class Two_players_game(Game):
 
         self.left_player = Player(self.win, left=True, is_default=True)
         self.right_player = Player(self.win, left=False, is_default=True)
+
+
+    def end_game(self):
+        """decides who won, calss draw winner based on it"""
+
+        self.draw_winner(self.left_player.score == 10)
+        self.wait_for_space()

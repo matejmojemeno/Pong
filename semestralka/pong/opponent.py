@@ -63,4 +63,4 @@ class Opponent:
     def draw(self, win):
         """draw the paddle with default skin"""
 
-        self.paddle.draw('default.png', win)
+        self.paddle.draw('default', win)

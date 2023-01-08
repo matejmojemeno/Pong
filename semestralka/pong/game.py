@@ -6,6 +6,7 @@ from .ball import Ball
 from .player import Player
 from .opponent import Opponent
 from .collision import top_bottom_collision, ball_paddle_collision
+from.parse_config_file import add_money
 
 
 class Game:
@@ -77,16 +78,7 @@ class Game:
         image = pygame.image.load('resources/numbers/' + number + '.png')
         image = pygame.transform.scale(image, (50 * len(number), 70))
 
-        rect = pygame.Rect(self.win.get_width() /
-                           2 -
-                           100 +
-                           150 *
-                           (not left) -
-                           50 *
-                           left *
-                           (len(number) -
-                            1), 20, 50 *
-                           len(number), 70)
+        rect = pygame.Rect(self.win.get_width() / 2 - 100 + 150 * (not left) - 50 * left * (len(number) - 1), 20, 50 * len(number), 70)
 
         self.win.blit(image, rect)
 
@@ -149,17 +141,15 @@ class Game:
         self.draw_winner(self.left_player.score == 10)
         self.wait_for_space()
 
+        if self.left_player.score == 10:
+            add_money(5 + 5*self.right_player.difficulty)
+
     def draw_winner(self, left):
         """displays a winner sign on side of the winner"""
 
         image = pygame.transform.scale(
             pygame.image.load('resources/winner.png'), (230, 50))
-        rect = pygame.Rect(205 +
-                           (not left) *
-                           self.win.get_width() /
-                           2, self.win.get_height() /
-                           2 -
-                           25, 230, 50)
+        rect = pygame.Rect(205 + (not left) * self.win.get_width() / 2, self.win.get_height() / 2 - 25, 230, 50)
 
         self. win.blit(image, rect)
 

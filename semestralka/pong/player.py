@@ -21,7 +21,7 @@ class Player:
 
         # default when playing 2 player mode
         if is_default:
-            self.skin = 'default.png'
+            self.skin = 'default'
             stats = [10, 10, 10]
         else:
             curr_skin, skins = read_skins()

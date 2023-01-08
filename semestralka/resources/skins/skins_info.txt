@@ -1,4 +1,8 @@
-2
-default.png True
-rene.png True
-balkis.png True
+0
+default True
+dazdnik False
+domcek False
+ja False
+rene False
+rybicky False
+thorfin False
