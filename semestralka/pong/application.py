@@ -1,7 +1,8 @@
 """wraps the whole application"""
 
 from .menu import Menu
-from .game import Game, Two_playess_game
+from .game import Game
+from .twoplayergame import Two_players_game
 from .shop import Shop
 from .parse_config_file import add_money
 
@@ -51,7 +52,7 @@ class Application:
                 self.players_menu()
         elif action == 1:
             self.win.fill((0, 0, 0))
-            game = Two_playess_game(self.win)
+            game = Two_players_game(self.win)
             game.play()
 
     def main_menu(self):
