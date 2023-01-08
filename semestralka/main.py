@@ -1,8 +1,15 @@
-from pong import Application
+"""main file"""
+
 import pygame
+from pong import Application
 
-win = pygame.display.set_mode((1280, 720))
+#window resolution
+WIN_WIDTH = 1280
+WIN_HEIGHT = 720
 
+#create game window
+win = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
+
+#run the application
 app = Application(win)
-
 app.run()
