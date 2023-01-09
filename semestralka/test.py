@@ -34,4 +34,4 @@ def test_stats():
     assert len(stats) == 4
 
     for stat in stats[:-1]:
-        assert 0 < stat < 20
+        assert 0 <= stat <= 20

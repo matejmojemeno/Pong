@@ -30,6 +30,7 @@ class Player:
             stats = read_stats()
 
         self.paddle = Paddle(left, stats[0], stats[1], win)
+        self.skin = pygame.transform.scale(pygame.image.load('resources/skins/' + self.skin), (self.paddle.width, self.paddle.height))
         self.stamina = Stamina(stats[2], left)
 
     def draw(self, win):

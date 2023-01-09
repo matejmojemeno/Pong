@@ -8,7 +8,7 @@ Menu je ovladane mysou, hra je hrana w, s, sipka hore, sipka dole, lavy shift, p
 v repozitari je executable subor main, ktory staci spustit
 
 3. testovanie
-pomocou prikazu pytest, testuju sa len resources
+pomocou prikazu pytest test.py, testuju sa len resources
 
 
 

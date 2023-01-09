@@ -1,5 +1,6 @@
 """AI playing the right paddle"""
 
+import pygame
 from .paddle import Paddle
 
 
@@ -14,6 +15,7 @@ class Opponent:
         self.difficulty = difficulty
         self.score = 0
         self.ball = ball
+        self.skin = pygame.transform.scale(pygame.image.load('resources/skins/default'), (self.paddle.width, self.paddle.height))
 
     def move(self, win):
         """move the paddle"""
@@ -63,4 +65,4 @@ class Opponent:
     def draw(self, win):
         """draw the paddle with default skin"""
 
-        self.paddle.draw('default', win)
+        self.paddle.draw(self.skin, win)

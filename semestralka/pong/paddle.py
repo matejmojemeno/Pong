@@ -48,8 +48,6 @@ class Paddle:
         """draws the paddle"""
 
         # load the image and scale it to paddle size
-        skin = pygame.transform.scale(pygame.image.load(
-            'resources/skins/' + skin), (self.width, self.height))
         rect = pygame.Rect(self.pos_x, self.pos_y, self.width, self.height)
 
         # draw the image over the rectangle
