@@ -5,6 +5,7 @@ import pygame
 from .ball import Ball
 from .player import Player
 from .opponent import Opponent
+from .menu import Menu
 from .collision import top_bottom_collision, ball_paddle_collision
 from.parse_config_file import add_money
 
@@ -180,6 +181,21 @@ class Game:
         self.handle_collision()
         self.add_point()
 
+    def pause(self):
+        keys = pygame.key.get_pressed()
+        if not keys[pygame.K_ESCAPE]:
+            return True
+
+        menu_items = ['resume', 'exit']
+
+        menu = Menu(menu_items, self.win)
+        action = menu.display_menu(self.win)
+
+        if action == 0:
+            return True
+        else:
+            return False
+
     def play(self):
         """main game loop"""
 
@@ -200,7 +216,10 @@ class Game:
                 self.ball_stop -= 1
                 self.game_iteration(ball_in_play=False)
 
-            running = self.check_winner()
+            running = self.check_winner() 
+            
+            if not self.pause():
+                return False
 
             pygame.display.update()
 
